@@ -217,34 +217,6 @@ El modelo HSL (sigla del inglés Hue, Saturation, Lightness; en español, ‘mat
 
 <img width="500" height="375" alt="image" src="https://github.com/user-attachments/assets/deba0d6e-e835-4d8e-8aff-821122e045e5" />
 
-## 1.5. Representación y trazo de líneas y polígonos.
-
-Polígono es la superficie plana encerrada dentro de un contorno formado por segmentos rectos unidos en sus extremos.
-Cada uno de los segmentos se denomina lado.                                                                                  
-El punto de unión de cada par de segmentos se denomina ángulo.
-El numero de lados, ( y por tanto de ángulos) ha de ser  mayor o igual a tres.
-Elementos de un polígono
-Lados:
-Son los segmentos que lo limitan.
-
-Vértices
-Son los puntos donde concurren dos lados.
-
-Ángulos interiores de un polígono
-Son los determinados por dos lados consecutivos.
-
-El polígono es el caso bidimensional del politopo, figura geométrica general definida para cualquier número de dimensiones. a noción geométrica elemental ha sido adaptada de distintas maneras para servir a propósitos específicos.
-En Matemáticas, un politopo regular es una figura geométrica con un alto grado de simetría. Ejemplo de politopos regulares en dos dimensiones son el cuadrado, el pentágono y el hexágono regular. 
-
-La representación básica  de alguna imagen se limita a polígonos regulares e irregulares formados por vértices. 
-Se pueden organizar los polígonos para mejorar el tratamiento. 
-
-
-  ### 1.5.1 Formatos de imagen.
-El almacenamiento de los datos que componen una imagen digital en un archivo binario puede realizarse utilizando diferentes formatos gráficos, cada uno de los cuales ofrece diferentes posibilidades con respecto a la resolución de la imagen, la gama decolores, la compatibilidad, la rapidez de carga, ete.
-
-La finalidad última de un formato gráfico es almacenar una imagen buscando un eguilibrio adecuado entre calidad, peso final del fichero y compatibilidad entre plataformas. Para ello, cada formato se basa en una o más técnicas diferentes, aue pueden incluir codificación
-
 **MINI TUTORIAL**
 
 iluminar un cubo y sus caras en Blender
@@ -293,6 +265,100 @@ Este tipo de luz da resultados más realistas.
   - Metallic según el tipo de superficie.
 
 Esto mejora la forma en que la luz se refleja y hace más visibles las caras.
+
+<img width="1600" height="900" alt="image" src="https://github.com/user-attachments/assets/79ec35cf-37b8-46e6-88c5-7b2327f3768e" />
+
+## 1.5. Representación y trazo de líneas y polígonos.
+
+Polígono es la superficie plana encerrada dentro de un contorno formado por segmentos rectos unidos en sus extremos.
+Cada uno de los segmentos se denomina lado.                                                                                  
+El punto de unión de cada par de segmentos se denomina ángulo.
+El numero de lados, ( y por tanto de ángulos) ha de ser  mayor o igual a tres.
+Elementos de un polígono
+Lados:
+Son los segmentos que lo limitan.
+
+Vértices
+Son los puntos donde concurren dos lados.
+
+Ángulos interiores de un polígono
+Son los determinados por dos lados consecutivos.
+
+El polígono es el caso bidimensional del politopo, figura geométrica general definida para cualquier número de dimensiones. a noción geométrica elemental ha sido adaptada de distintas maneras para servir a propósitos específicos.
+En Matemáticas, un politopo regular es una figura geométrica con un alto grado de simetría. Ejemplo de politopos regulares en dos dimensiones son el cuadrado, el pentágono y el hexágono regular. 
+
+La representación básica  de alguna imagen se limita a polígonos regulares e irregulares formados por vértices. 
+Se pueden organizar los polígonos para mejorar el tratamiento. 
+
+# 🌸 Generador de Geometría Procedural en Blender (Python)
+
+Este script automatiza la creación de patrones circulares (como la Semilla de la Vida) utilizando la API de Python para Blender (`bpy`). Utiliza conceptos básicos de trigonometría y bucles `while` para posicionar elementos en un entorno 3D.
+
+
+
+[Image of unit circle with sine and cosine coordinates]
+
+
+## 🚀 Cómo usar este Script
+
+1. Abre **Blender** (v2.80 o superior).
+2. Ve a la pestaña **Scripting** en la barra superior.
+3. Haz clic en **+ New** para crear un nuevo archivo de texto.
+4. Pega el código que se encuentra a continuación.
+5. Presiona el botón **Run Script** (o `Alt + P`).
+
+## 💻 El Código
+
+```python
+import bpy
+import math
+
+def generar_patron_circular(radio=3, paso_angular=60):
+    """
+    Limpia la escena y genera un patrón de círculos concéntricos.
+    """
+    # 1. Limpiar escena (Borra todo el contenido previo)
+    bpy.ops.object.select_all(action='SELECT')
+    bpy.ops.object.delete()
+
+    # 2. Círculo Central
+    bpy.ops.mesh.primitive_circle_add(
+        radius=radio, 
+        location=(0, 0, 0), 
+        vertices=64
+    )
+
+    # 3. Generación de círculos periféricos mediante Bucle While
+    angulo_actual = 0
+    
+    while angulo_actual < 360:
+        # Convertimos grados a radianes para las funciones math.cos y math.sin
+        radianes = math.radians(angulo_actual)
+        
+        # Calcular coordenadas (x, y) usando trigonometría
+        x = radio * math.cos(radianes)
+        y = radio * math.sin(radianes)
+        
+        # Crear el círculo en la posición calculada
+        bpy.ops.mesh.primitive_circle_add(
+            radius=radio, 
+            location=(x, y, 0), 
+            vertices=64
+        )
+        
+        # Incrementar el ángulo para la siguiente iteración
+        angulo_actual += paso_angular
+
+# Ejecutar la función
+# Tip: Cambia paso_angular a 60 para 6 pétalos o a 30 para 12.
+generar_patron_circular(radio=3, paso_angular=60)
+```
+
+  ### 1.5.1 Formatos de imagen.
+El almacenamiento de los datos que componen una imagen digital en un archivo binario puede realizarse utilizando diferentes formatos gráficos, cada uno de los cuales ofrece diferentes posibilidades con respecto a la resolución de la imagen, la gama decolores, la compatibilidad, la rapidez de carga, ete.
+
+La finalidad última de un formato gráfico es almacenar una imagen buscando un eguilibrio adecuado entre calidad, peso final del fichero y compatibilidad entre plataformas. Para ello, cada formato se basa en una o más técnicas diferentes, aue pueden incluir codificación
+
 
 ## 1.6. Procesamiento de mapas de bits. 
 
